@@ -1,8 +1,8 @@
-import { HeroSection } from "@/components/hero-section"
-import { DriversSection } from "@/components/drivers-section"
-import { TeamsSection } from "@/components/teams-section"
-import { RacesSection } from "@/components/races-section"
-import { StatsSection } from "@/components/stats-section"
+import { HeroSection } from "@/src/components/hero-section"
+import { DriversSection } from "@/src/components/drivers-section"
+import { TeamsSection } from "@/src/components/teams-section"
+import { RacesSection } from "@/src/components/races-section"
+import { StatsSection } from "@/src/components/stats-section"
 
 export default function HomePage() {
   return (
