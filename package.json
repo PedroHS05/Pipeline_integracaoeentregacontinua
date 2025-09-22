@@ -58,7 +58,7 @@
     "postcss": "^8.5",
     "prettier": "^3.4.2",
     "typescript": "^5",
-    "vercel": "^37.14.0",
+    "vercel": "^48.1.0",
     "wait-on": "^8.0.1"
   },
   "bundlesize": [
