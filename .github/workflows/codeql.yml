@@ -26,7 +26,7 @@ jobs:
   # ------------------------------------------
   analyze:
     name: Analyze (${{ matrix.language }})
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -56,9 +56,8 @@ jobs:
         with:
           category: "/language:${{ matrix.language }}"
 
-
   # ------------------------------------------
-  # Deploy Job (.NET + Vercel + Sleuth)
+  # Deploy Job (Vercel + Sleuth)
   # ------------------------------------------
   deploy:
     name: Deploy to Production
@@ -72,24 +71,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Restore
-        run: dotnet restore
-
-      - name: Build (Release)
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal
-
       # --------------------------
       # Deploy para Vercel
       # --------------------------
-      # Se você usa CLI/script:
       - name: Install Vercel CLI
         run: npm install --global vercel
 
@@ -100,17 +84,12 @@ jobs:
         run: |
           vercel --prod --yes --token $VERCEL_TOKEN
 
-      # Alternativamente, se você usa GitHub -> Vercel integration, remova o bloco acima.
-
       # --------------------------
       # Notifica Sleuth após deploy
       # --------------------------
       - name: Notify Sleuth
         if: ${{ success() && steps.deploy.outcome == 'success' }}
-        uses: sleuth-io/sleuth-action@main
+        uses: sleuth-io/sleuth-action@v1
         with:
           api_key: ${{ secrets.SLEUTH_API_KEY }}
           environment: production
-          # revision: ${{ github.sha }}
-          # repo: ${{ github.repository }}
-          # deployed_at: ${{ github.event.head_commit.timestamp }}
